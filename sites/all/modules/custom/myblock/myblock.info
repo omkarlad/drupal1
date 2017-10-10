@@ -1,0 +1,5 @@
+name = "My custom block"
+description = "creates a custom block"
+core = "7.x"
+php = "5.4.2"
+version ="7.x-1.0"

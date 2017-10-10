@@ -1,0 +1,131 @@
+
+
+
+<?php
+
+/**
+ *
+ * Implement hook_permission()
+ */
+
+function reg_permission() {
+    return array(
+        'submit reg' => array(
+            'title' => t('submit reg'),
+            'description' => t('Submit the reg form.'),
+        ),
+
+        'access reg submissions' => array(
+            'title' => t('Access reg submissions'),
+            'description' => t('Access the reg submissions.'),
+        ),
+    );
+}
+
+/**
+ * Implement hook_menu()
+ */
+
+function reg_menu() {
+    $items = array ();
+    $items['reg'] = array(
+        'title' => 'reg form',
+        'page callback' => 'drupal_get_form',
+        'access arguments' => array('submit reg'),
+        'type' => MENU_NORMAL_ITEM,
+        'page arguments'=> array('reg_form'),
+    );
+    $items['form_submissions'] = array(
+        'title' => 'reg submissions',
+        'page callback' => 'reg_submissions',
+        'access arguments' => array('access reg submissions'),
+        'type' => MENU_NORMAL_ITEM,
+
+    );
+
+    return $items;
+}
+
+/**
+ * My example form.
+ */
+
+function reg_form($form,&$form_state) {
+
+    $form['mail']=array(
+        '#type' => 'textfield',
+        '#title' => t('Mail'),
+        '#size' => 60,
+        '#maxlength' => 128,
+        '#required' => TRUE,
+        '#description' => t('Please enter a valid mail'),
+    );
+
+
+    $form['fname']=array(
+        '#type' => 'textfield',
+        '#title' => t('First Name'),
+        '#size' => 60,
+        '#maxlength' => 128,
+        '#required' => TRUE,
+    );
+
+    $form['lname']=array(
+        '#type' => 'textfield',
+        '#title' => t('Last name'),
+        '#size' => 60,
+        '#maxlength' => 128,
+        '#required' => TRUE,
+       
+    );
+
+    $form['submit']=array(
+        '#type'=>'submit',
+        '#value'=>t('Join Now !'),
+    );
+
+    return $form;
+
+}
+
+
+
+/**
+ *Submit handler. Enters entry into database
+ */
+
+function reg_form_submit($form,&$form_state) {
+    $fe_id = db_insert ('reg')
+        ->fields(array(
+            'mail'=> $form_state['values']['mail'],
+            'fname'=> $form_state['values']['fname'],
+            'lname'=> $form_state['values']['lname'],
+        ))
+        ->execute();
+
+    drupal_set_message(t('Your form entry has been added'));
+}
+
+/**
+ * view form submissions
+ */
+
+function reg_submissions() {
+    $results = db_query("SELECT * FROM {reg}");
+
+    $header = array(t('ID'),t('Mail'),t('First Name'));
+    $rows = array();
+
+    foreach($results AS $result){
+        $rows[]=array(
+            $result->fe_id,
+            $result->mail,
+            $result->fname,
+            $result->lname
+        );
+    }
+
+    return theme ('table',array('header'=> $header,'rows'=> $rows));
+
+}
+

@@ -1,0 +1,6 @@
+name = "Registration form"
+description = "Lets user register"
+package = Pro Drupal Development
+core = "7.x"
+
+

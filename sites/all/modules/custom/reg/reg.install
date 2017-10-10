@@ -1,0 +1,49 @@
+<?php
+
+/**
+ * Implement hook_schema()
+ */
+
+function reg_schema() {
+  $schema = array();
+  $schema['reg'] = array(
+
+    'description' => 'An example table.',
+    'fields' => array(
+      'fe_id' => array(
+        'description' => 'The primary identifier for my example.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'mail' => array(
+        'description' => 'A filed for storing mail.',
+        'type' => 'varchar',
+        'length' => 50,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'fname' => array(
+        'description' => 'A filed for storing fname.',
+        'type' => 'varchar',
+        'length' => 50,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'lname' => array(
+        'description' => 'A filed for storing lname.',
+        'type' => 'varchar',
+        'length' => 50,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+    ),
+    'indexes' => array(
+      'reg_mail' => array('mail'),
+    ),
+
+    'primary key' => array('fe_id'),
+  );
+  return $schema;
+}
+

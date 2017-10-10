@@ -1,0 +1,5 @@
+name = "Hello World"
+description = "Just to try hook_menu"
+core = "7.x"
+php = "5.4.2"
+version ="7.x-1.0"

@@ -1,0 +1,42 @@
+<?php
+
+//hook_menu
+function myblock_menu() {
+    $items['mypage'] = array(
+      'title' => 'My page',
+      'type' => MENU_NORMAL_ITEM,
+      'page callback' => 'myblock_mypage',
+      'access arguments'=>array('access mypage'),
+    );
+    return $items;
+  }
+//callback function
+function myblock_mypage() {
+return "<strong>This is a test</strong>";
+}
+
+//hook_block_info
+function myblock_block_info() {
+  
+  $blocks['myblock'] = array(
+    'info' => t('my custom block'),
+  );
+
+  return $blocks;
+}
+//hook_block_view
+function myblock_block_view($delta = '') {  //delta is a unique identifier.
+  
+  $block = array();
+
+  switch ($delta) {
+    case 'myblock':
+      $block['subject'] = t('this is my custom block');
+      $block['content'] = "Some content should go here";
+     
+      break;
+
+   
+  }
+  return $block;
+}

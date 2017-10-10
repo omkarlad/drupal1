@@ -1,0 +1,34 @@
+<?php
+
+/**
+ * Implements hook_menu().
+ */
+function try_menu() {
+  $items['hi'] = array(
+    'title' => 'Hello world!',
+    'type' => MENU_NORMAL_ITEM,
+    'page callback' => 'hi_page',
+    'access callback' => TRUE,
+  );
+
+  $items['hi/tab1']= array(
+    'title' => 'Tab 1',
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+  );
+
+  $items['hi/tab2']=array(
+    'title'=>'Tab 2',
+    'type' => MENU_LOCAL_TASK,
+    'access callback' => TRUE,
+
+  );
+  return $items;
+}
+
+/**
+ * Page callback for /hello.
+ */
+function hi_page() {
+  return 'Hi world!';
+}
+

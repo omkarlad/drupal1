@@ -1,0 +1,53 @@
+<?php
+
+
+/*function trymodule_update_7000(&$sandbox) {
+  db_add_field('users', 'lastname', array(
+    'type' => 'varchar',
+    'not null' => TRUE,
+    'description' => 'lastname column.',
+  ));
+}
+*/
+ 
+
+/*function hook_schema_alter(&$schema) {
+  
+  // Add field to existing schema.
+  $schema['users']['fields']['lastname'] = array(
+    'type' => 'varchar',
+    'not null' => TRUE,
+    'default' => '',
+    'description' => 'Last name column.',
+  );
+}
+*/
+
+function tryhook_schema_alter(&$schema) {
+if (isset($schema['users'])) {
+$schema['users']['fields']['lastname'] = array(
+'type' => 'varchar',
+'length' => 60,
+'not null' => TRUE,
+'default' => '',
+);
+
+}
+}
+function tryhook_install() {
+$ret = array();
+$schema['users'] = array();
+tryhook_schema_alter($schema);
+foreach ($schema['users']['fields'] as $name => $spec) {
+db_add_field('users', $name, $spec, $ret );
+}
+}
+
+function tryhook_uninstall() {
+$ret = array();
+$schema['users'] = array();
+tryhook_schema_alter($schema);
+foreach ($schema['users']['fields'] as $name => $spec) {
+db_drop_field( 'users', $name, $ret);
+}
+}

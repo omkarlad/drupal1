@@ -1,0 +1,41 @@
+<?php
+
+function tryhook_form_alter(&$form, &$form_state, $form_id) {
+ if($form_id == 'user_register_form'){
+   
+          print('<pre>');
+          print_r($form);
+          print('</pre>');
+    $form['account']['name']['#title'] = "First Name";
+    $form['account']['name']['#description'] = t('Enter your first name');
+    $form['#validate'][] = "customregister_user_register_validate"; 
+
+ 
+        
+   
+    $form['account']['lastname']=array(
+    '#type' => 'textfield',
+    '#title' => t('Last Name'),
+    '#description' => t('Enter your last name'),
+    '#size' => 60,
+    '#maxlength' => 128,
+    '#required' => TRUE,
+    '#weight' => -9,
+);
+     
+   
+}
+}
+
+function customregister_user_register_validate(&$form, &$form_state)
+{
+if (preg_match("/[^a-zA-Z]/", $form_state['values']['lastname'], $res)) {
+form_error($form['account']['lastname'], t('Last name required'));
+}
+if (preg_match("/[^a-zA-Z]/", $form_state['values']['name'], $res)) {
+form_error($form['account']['name'], t('First name required'));
+}
+}
+
+
+   

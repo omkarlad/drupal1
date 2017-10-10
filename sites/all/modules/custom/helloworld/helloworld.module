@@ -1,0 +1,22 @@
+<?php
+
+/**
+ * Implements hook_menu().
+ */
+function helloworld_menu() {
+  $items['hello'] = array(
+    'title' => 'Hello world!',
+    'page callback' => 'helloworld_page',
+    'access callback' => TRUE,
+  );
+
+  return $items;
+}
+
+/**
+ * Page callback for /hello.
+ */
+function helloworld_page() {
+  return 'Hello world!';
+}
+

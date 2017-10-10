@@ -1,0 +1,6 @@
+name = "Try Hook"
+description = "Alter core module"
+package = Custom
+core = "7.x"
+
+

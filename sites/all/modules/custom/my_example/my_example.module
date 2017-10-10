@@ -1,0 +1,72 @@
+<?php
+
+/**
+* Implements hook_menu()
+ */
+
+function my_example_menu() {
+  $items['mypage-html'] = array(
+    'title' => 'My page with HTML-style function',
+    'page callback' => 'my_example_html_page',
+    'access callback' => TRUE,
+  );
+
+  $items['mypage-rendarable'] = array(
+    'title' => 'My page with render array function',
+    'page callback' => 'my_example_renderable_page',
+    'access callback' => TRUE,
+  );
+
+  return $items;
+}
+
+/**
+* Implement hook_theme()
+ */
+function my_example_theme($existing, $type, $theme, $path) {
+  return array(
+    'my_example_function' => array(
+      'variables' => array('text_one'=>NULL,'text_two'=>NULL),
+    ),
+    'my_example_template' => array(
+      'variables' => array('text_one'=>NULL,'text_two'=>NULL),
+      'template' => 'my_example_template',
+    ),
+    
+  );
+}
+
+/**
+* Callback function using html output
+ */
+ function my_example_html_page() {
+  $text_one="This is text one";
+  return theme('my_example_function',array('text_one'=>$text_one,'text_two'=>'Text_two!'));
+  }
+
+/**
+* Callback function using renderable array
+ */
+
+function my_example_renderable_page() {  //ability to change layout/content using hook_page_alter() at last minute.
+  $text_one="This is text one";
+  $output = array(
+    'first_para' => array(
+      '#theme'=>'my_example_template',
+      '#type' => 'markup',   
+      '#text_one'=>$text_one, 
+      '#text_two'=>'text three',
+      
+    ),
+    
+  );
+  return $output;
+}
+/**
+ * Theme function example 
+ */
+function theme_my_example_function($variables){
+ $output="<h2>" . $variables['text_one'] . "</h2>";
+ $output .="<p>" . $variables['text_two'] . "</p>";
+ return $output;                                           //can override output in tpl.php file
+}

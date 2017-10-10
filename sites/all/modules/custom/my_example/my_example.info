@@ -1,0 +1,7 @@
+name = "My Example"
+description = "To learn renderable arrays, theme functions, tpl.php and hook_theme."
+package = Pro Drupal Development
+core = "7.x"
+version="7.x-1.0"
+
+
